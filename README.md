@@ -108,7 +108,10 @@ use it as the host health check), `POST /actions` (`{action, args}`),
 
 1. Put this folder in a GitHub repo and push it.
 2. Railway → **New Project → Deploy from GitHub repo** → pick the repo.
-   Railway auto-detects Bun from `bun.lock`.
+   Railway auto-detects Bun from `bun.lock`. Do not put a file named
+   `Dockerfile` in the repo root — Railway picks it up and its validator
+   rejects this image; the Docker file lives at `Dockerfile.render` for
+   Render and local Docker use.
 3. Set the service commands explicitly if they are not picked up:
    **Build Command** `bun run build`, **Start Command** `bun run start`.
 4. Add a **Volume**, mount path `/app/data`. (Volumes need a paid plan.)
@@ -122,8 +125,9 @@ use it as the host health check), `POST /actions` (`{action, args}`),
 
 1. Push this folder to a GitHub repo.
 2. Render → **New → Web Service → Build and deploy from a Git repository** →
-   pick the repo → **Runtime: Docker**. The included `Dockerfile` does the
-   rest (`bun install`, `bun run build`, `bun run start`).
+   pick the repo → **Runtime: Docker**, Dockerfile path `Dockerfile.render`.
+   The included `Dockerfile.render` does the rest (`bun install`,
+   `bun run build`, `bun run start`).
 3. Add a **Persistent Disk**, mount path `/app/data`, 1 GB. (Disks need a
    paid instance type; on the free tier the database and photos live on
    ephemeral disk and are lost on redeploy.)
@@ -137,7 +141,7 @@ use it as the host health check), `POST /actions` (`{action, args}`),
 ### Option C — any Docker host / VPS
 
 ```sh
-docker build -t help-pay-bills .
+docker build -f Dockerfile.render -t help-pay-bills .
 docker run -p 3000:3000 -v hpb-data:/app/data help-pay-bills
 ```
 
@@ -231,6 +235,8 @@ server/
                         reports)
 drizzle/                SQLite migrations 0001 + 0002 + 0003 (accounts,
                         sessions, reports, ownership, hidden flag)
-Dockerfile              multi-stage Bun image (also usable on Render/Railway)
+Dockerfile.render       multi-stage Bun image for Render / local Docker
+                        (kept out of the repo root so Railway uses
+                        Nixpacks instead of Docker)
 DATA-PLAN.md            the original design notes
 ```

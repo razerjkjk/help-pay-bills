@@ -1,6 +1,8 @@
 # Help Pay Bills — container image (Bun 1.4).
-# Build:  docker build -t help-pay-bills .
+# Build:  docker build -f Dockerfile.render -t help-pay-bills .
 # Run:    docker run -p 3000:3000 -v hpb-data:/app/data help-pay-bills
+# Named Dockerfile.render (not Dockerfile) so Railway does not pick it up
+# and instead builds with Nixpacks; Render and local Docker use it via -f.
 # The /app/data volume holds the SQLite database and proof photos; without
 # it, bills disappear when the container is replaced.
 FROM oven/bun:1.4 AS base
