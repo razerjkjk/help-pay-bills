@@ -1606,6 +1606,11 @@ export function App() {
                   Donors pay the biller directly. This app never takes money,
                   and a bill only counts as paid when the poster confirms it.
                 </p>
+                <p className="mt-2 max-w-xl text-base leading-snug text-cyan-100">
+                  Be nice and respectful — everyone here is going through
+                  something. Treat people the way you&rsquo;d want to be
+                  treated.
+                </p>
                 <button
                   type="button"
                   onClick={goPost}
