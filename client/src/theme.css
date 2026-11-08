@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap");
+@import "tailwindcss";
+@import "tailwindcss-safe-area";
+
+@theme {
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 30px;
+  --text-3xl--line-height: 36px;
+  --text-4xl: 36px;
+  --text-4xl--line-height: 40px;
+  --text-5xl: 48px;
+  --text-5xl--line-height: 52px;
+  --font-sans: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* Futuristic 2026: a single dark system. Deep space black, glass
+   surfaces, electric cyan as the one action colour, violet only as a
+   secondary glow. No parchment, no vermilion, no gold anywhere. The
+   page deliberately does not flip to a light theme — the dark HUD
+   look is the design, in every colour scheme. */
+:root {
+  color-scheme: dark;
+  --bg: #04070f;
+  --surface: #0a0f22;
+  --surface-alt: #111a33;
+  --text: #f2f6ff;
+  --dim: #9aa9cc;
+  --border: rgb(148 178 255 / 0.22);
+  --accent: #22d3ee;
+  --accent-ink: #02131a;
+  --gold: #a5b4fc;
+  --gold-bright: #67e8f9;
+  --amber: #fbbf24;
+  --green: #34d399;
+  --plum: #7c3aed;
+  --radius: 20px;
+  --panel: #070d1f;
+  --panel-text: #f2f6ff;
+  --panel-dim: #9aa9cc;
+  --panel-track: rgb(255 255 255 / 0.14);
+  --panel-gold: #22d3ee;
+  --tone-needs-bg: rgb(34 211 238 / 0.14);
+  --tone-needs-text: #67e8f9;
+  --tone-partial-bg: rgb(139 124 255 / 0.16);
+  --tone-partial-text: #c4b5fd;
+  --tone-funded-bg: rgb(52 211 153 / 0.14);
+  --tone-funded-text: #6ee7b7;
+  --tone-paid-bg: rgb(148 163 184 / 0.16);
+  --tone-paid-text: #cbd5e1;
+  --space-surface: var(--surface);
+  --space-surface-alt: var(--surface-alt);
+  --space-muted: var(--dim);
+  --space-border: var(--border);
+  --space-accent: var(--accent);
+}
+
+select option {
+  background-color: #0a0f22;
+  color: #f2f6ff;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(34 211 238 / 0.8);
+  outline-offset: 2px;
+}
+
+/* Fine HUD grid, fading down the page, behind the content. */
+.future-grid {
+  background-image:
+    linear-gradient(rgb(148 178 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 178 255 / 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 72%);
+}
+
+/* Pulsing live dot for the hero eyebrow. */
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 999px;
+  background: #22d3ee;
+  box-shadow: 0 0 0 0 rgb(34 211 238 / 0.55);
+  animation: live-pulse 2.2s ease-out infinite;
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(34 211 238 / 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgb(34 211 238 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(34 211 238 / 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot {
+    animation: none;
+  }
+}
+
+/* Glass card surface used by the summary strip and amount panels. */
+.glass-panel {
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.05),
+    rgb(255 255 255 / 0.015)
+  );
+  border: 1px solid rgb(148 178 255 / 0.22);
+  backdrop-filter: blur(14px);
+}
+
+/* Former stained-glass strip, now a single hairline of cyan light
+   running into violet. Kept under its old class name so existing
+   markup needs no structural change. */
+.stained-bar {
+  height: 2px;
+  overflow: hidden;
+  background: linear-gradient(to right, transparent, #22d3ee 18%, #8b7cff 82%, transparent);
+}
+
+/* Progress fill: cyan light running into violet, with a glow. */
+.progress-fill {
+  background: linear-gradient(to right, #22d3ee, #38bdf8 45%, #8b7cff);
+  box-shadow: 0 0 14px rgb(34 211 238 / 0.55);
+}
+
+/* Headlines no longer sit on the photograph, so no halo is needed. */
+.faith-headline {
+  text-shadow: none;
+}
+
+/* The drop cap is gone with the serif poster style; stories read
+   as clean body text. */
+.story-dropcap::first-letter {
+  float: none;
+  padding-right: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+/* Retained for any leftover hero-panel markup: dark glass, cyan edge. */
+.hero-panel {
+  background: #070d1f;
+  border: 1px solid rgb(34 211 238 / 0.35);
+  box-shadow:
+    0 24px 60px rgb(0 0 0 / 0.55),
+    0 0 40px rgb(34 211 238 / 0.12);
+  color: var(--panel-text);
+}

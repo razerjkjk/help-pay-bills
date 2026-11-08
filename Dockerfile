@@ -1,0 +1,33 @@
+# Help Pay Bills — container image (Bun 1.4).
+# Build:  docker build -t help-pay-bills .
+# Run:    docker run -p 3000:3000 -v hpb-data:/app/data help-pay-bills
+# The /app/data volume holds the SQLite database and proof photos; without
+# it, bills disappear when the container is replaced.
+FROM oven/bun:1.4 AS base
+WORKDIR /app
+
+FROM base AS install
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile --production
+
+FROM base AS build
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+COPY . .
+RUN bun run build
+
+FROM base AS release
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV DATABASE_PATH=/app/data/app.db
+ENV UPLOADS_DIR=/app/data/uploads
+COPY --from=install /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/drizzle ./drizzle
+COPY --from=build /app/package.json ./package.json
+COPY --from=build /app/server ./server
+VOLUME /app/data
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
+  CMD bun -e 'fetch("http://127.0.0.1:" + (process.env.PORT || 3000) + "/health").then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))'
+CMD ["bun", "run", "start"]
