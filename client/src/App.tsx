@@ -1606,11 +1606,14 @@ export function App() {
                   Donors pay the biller directly. This app never takes money,
                   and a bill only counts as paid when the poster confirms it.
                 </p>
-                <p className="mt-2 max-w-xl text-base leading-snug text-cyan-100">
-                  Be nice and respectful — everyone here is going through
-                  something. Treat people the way you&rsquo;d want to be
-                  treated.
-                </p>
+                <div className="mt-4 flex max-w-xl items-start gap-3 rounded-[18px] border border-cyan-300/30 bg-[rgb(34_211_238/0.08)] px-4 py-3 shadow-[0_0_24px_rgb(34_211_238/0.18)]">
+                  <span aria-hidden="true" className="mt-0.5 text-xl leading-none text-cyan-200">♥</span>
+                  <p className="text-base leading-snug text-cyan-100">
+                    Be nice and respectful — everyone here is going through
+                    something. Treat people the way you&rsquo;d want to be
+                    treated.
+                  </p>
+                </div>
                 <button
                   type="button"
                   onClick={goPost}
